@@ -4,7 +4,9 @@ import android.graphics.Canvas
 import android.view.SurfaceHolder
 
 /**
- * Created by arjun on 26/12/17.
+ * ---------------------------------------------------------------------------------------------
+ * Game thread entry
+ * ---------------------------------------------------------------------------------------------
  */
 
 class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView: GameView) : Thread() {

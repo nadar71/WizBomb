@@ -4,25 +4,22 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 
-/**
- * ---------------------------------------------------------------------------------------------
- * Player Class.
- */
-
-class Player(private val image: Bitmap) {
-    private var x: Int = 0
-    private var y: Int = 0
-    private val w: Int
-    private val h: Int
-    private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-    private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+open class Enemy(var image:Bitmap) {
+    var x: Int = 0
+    var y: Int = 0
+    var w: Int = 0
+    var h: Int = 0
+    protected var xVelocity = 10
+    protected var yVelocity = 10
+    protected val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+    protected val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
     init {
         w = image.width
         h = image.height
 
         x = screenWidth/2
-        y = screenHeight - 200
+        y = 0 +  w
     }
 
     /**
@@ -30,19 +27,23 @@ class Player(private val image: Bitmap) {
      * Draws the object on to the canvas.
      * ---------------------------------------------------------------------------------------------
      */
-    fun draw(canvas: Canvas) {
+    open fun draw(canvas: Canvas) {
         canvas.drawBitmap(image, x.toFloat(), y.toFloat(), null)
     }
 
     /**
      * ---------------------------------------------------------------------------------------------
      * update properties for the game object
-     * when the player touches the screen, position the player bitmap there
      * ---------------------------------------------------------------------------------------------
      */
-    fun update(touch_x: Int, touch_y: Int) {
-        x = touch_x - w / 2
-        y = touch_y - h / 2
-    }
+    open fun update() {
+        // val randomNum = ThreadLocalRandom.current().nextInt(1, 5)
 
+        if (x > screenWidth - w || x < w*0.5) {
+            xVelocity = xVelocity * -1
+        }
+
+        x += (xVelocity)
+
+    }
 }

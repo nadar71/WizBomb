@@ -9,20 +9,23 @@ import android.view.SurfaceView
 import android.view.SurfaceHolder
 
 /**
+ * ---------------------------------------------------------------------------------------------
  * GameView is our playground.
+ * ---------------------------------------------------------------------------------------------
  */
 
-class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes), SurfaceHolder.Callback {
+class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
+        SurfaceHolder.Callback {
     private val thread: GameThread
-    private var grenade: Grenade? = null
-    private var player: Player?   = null
+    private var bomb:     Bomb? = null
+    private var basic_enemy: Enemy?   = null
+    private var player:      Player?   = null
 
     private var touched: Boolean = false
     private var touched_x: Int = 0
     private var touched_y: Int = 0
 
     init {
-
         // add callback
         holder.addCallback(this)
 
@@ -33,13 +36,15 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
     override fun surfaceCreated(surfaceHolder: SurfaceHolder) {
         // game objects
-        grenade = Grenade(BitmapFactory.decodeResource(resources, R.drawable.grenade))
-        player = Player(BitmapFactory.decodeResource(resources, R.drawable.player))
+        bomb     = Bomb(BitmapFactory.decodeResource(resources, R.drawable.bomb_01))
+        basic_enemy = Enemy(BitmapFactory.decodeResource(resources, R.drawable.monster_01))
+        player      = Player(BitmapFactory.decodeResource(resources, R.drawable.razor_saw))
 
         // start the game thread
         thread.setRunning(true)
         thread.start()
     }
+
 
     override fun surfaceChanged(surfaceHolder: SurfaceHolder, i: Int, i1: Int, i2: Int) {
 
@@ -59,25 +64,37 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         }
     }
 
+
+
     /**
+     * ---------------------------------------------------------------------------------------------
      * Function to update the positions of player and game objects
+     * ---------------------------------------------------------------------------------------------
      */
     fun update() {
-        grenade!!.update()
+        bomb!!.update()
+        basic_enemy!!.update()
+
         if(touched) {
             player!!.update(touched_x, touched_y)
         }
     }
 
     /**
+     * ---------------------------------------------------------------------------------------------
      * Everything that has to be drawn on Canvas
+     * ---------------------------------------------------------------------------------------------
      */
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
-        grenade!!.draw(canvas)
+        bomb!!.draw(canvas)
+        basic_enemy!!.draw(canvas)
         player!!.draw(canvas)
     }
+
+
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // when ever there is a touch on the screen,

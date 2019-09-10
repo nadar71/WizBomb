@@ -5,22 +5,21 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 
 /**
- * Grenade Class.
+ * -------------------------------------------------------------------------------------------------
+ * Bomb Class.
  * It could be considered as System. System is playing against you in the game.
- * Grenade is the opponent.
+ * Bomb is the opponent.
+ * -------------------------------------------------------------------------------------------------
  */
 
-class Grenade(var image: Bitmap) {
-    var x: Int = 0
-    var y: Int = 0
-    var w: Int = 0
-    var h: Int = 0
-    private var xVelocity = 20
-    private var yVelocity = 20
-    private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-    private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+class Bomb(image: Bitmap):Enemy(image) {
 
     init {
+        x = 0
+        y = 0
+        xVelocity = 20
+        yVelocity = 20
+
         w = image.width
         h = image.height
 
@@ -29,16 +28,20 @@ class Grenade(var image: Bitmap) {
     }
 
     /**
+     * ---------------------------------------------------------------------------------------------
      * Draws the object on to the canvas.
+     * ---------------------------------------------------------------------------------------------
      */
-    fun draw(canvas: Canvas) {
+    override fun draw(canvas: Canvas) {
         canvas.drawBitmap(image, x.toFloat(), y.toFloat(), null)
     }
 
     /**
+     * ---------------------------------------------------------------------------------------------
      * update properties for the game object
+     * ---------------------------------------------------------------------------------------------
      */
-    fun update() {
+    override fun update() {
         // val randomNum = ThreadLocalRandom.current().nextInt(1, 5)
 
         if (x > screenWidth - image.width || x < image.width) {
