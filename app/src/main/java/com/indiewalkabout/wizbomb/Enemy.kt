@@ -3,7 +3,12 @@ package com.indiewalkabout.wizbomb
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-
+import android.graphics.Rect
+/**
+ * ---------------------------------------------------------------------------------------------
+ * Parent class about all enemies
+ * ---------------------------------------------------------------------------------------------
+ */
 open class Enemy(var image:Bitmap) {
     var x: Int = 0
     var y: Int = 0
@@ -14,12 +19,17 @@ open class Enemy(var image:Bitmap) {
     protected val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     protected val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
+    // collision detection box
+    protected var hitBox : Rect
+
     init {
         w = image.width
         h = image.height
 
         x = screenWidth/2
         y = 0 +  w
+
+        hitBox = Rect(x, y, w, h)
     }
 
     /**
@@ -33,7 +43,7 @@ open class Enemy(var image:Bitmap) {
 
     /**
      * ---------------------------------------------------------------------------------------------
-     * update properties for the game object
+     * update properties for game object
      * ---------------------------------------------------------------------------------------------
      */
     open fun update() {
@@ -45,5 +55,20 @@ open class Enemy(var image:Bitmap) {
 
         x += (xVelocity)
 
+        updateHitBox()
+
+    }
+
+    /**
+     * ---------------------------------------------------------------------------------------------
+     * update hit box for game object
+     * ---------------------------------------------------------------------------------------------
+     */
+    open fun updateHitBox(){
+        // hitbox follow player position
+        hitBox.left   = x
+        hitBox.top    = y
+        hitBox.right  = x + w
+        hitBox.bottom = y + h
     }
 }

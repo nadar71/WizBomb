@@ -6,22 +6,16 @@ import android.graphics.Canvas
 
 /**
  * -------------------------------------------------------------------------------------------------
- * Bomb Class.
- * It could be considered as System. System is playing against you in the game.
- * Bomb is the opponent.
+ * Bomb enemy type
  * -------------------------------------------------------------------------------------------------
  */
 
 class Bomb(image: Bitmap):Enemy(image) {
 
     init {
-        x = 0
-        y = 0
+
         xVelocity = 20
         yVelocity = 20
-
-        w = image.width
-        h = image.height
 
         x = screenWidth/2
         y = screenHeight/2
@@ -54,6 +48,8 @@ class Bomb(image: Bitmap):Enemy(image) {
         x += (xVelocity)
         y += (yVelocity)
 
+
+        updateHitBox()
     }
 
 }

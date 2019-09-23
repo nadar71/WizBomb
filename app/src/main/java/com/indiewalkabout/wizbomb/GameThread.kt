@@ -5,7 +5,10 @@ import android.view.SurfaceHolder
 
 /**
  * ---------------------------------------------------------------------------------------------
- * Game thread entry
+ * Game thread :
+ * - update game objects
+ * - draw on canvas
+ * * thread sleep for waitTime to realize the requested targetFPS
  * ---------------------------------------------------------------------------------------------
  */
 

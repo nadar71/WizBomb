@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceView
 import android.view.SurfaceHolder
+import java.util.ArrayList
 
 /**
  * ---------------------------------------------------------------------------------------------
@@ -16,14 +17,17 @@ import android.view.SurfaceHolder
 
 class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes),
         SurfaceHolder.Callback {
-    private val thread: GameThread
-    private var bomb:     Bomb? = null
+    private val thread:      GameThread
+    private var bomb:        Bomb? = null
     private var basic_enemy: Enemy?   = null
     private var player:      Player?   = null
 
     private var touched: Boolean = false
     private var touched_x: Int = 0
     private var touched_y: Int = 0
+
+    private var enemies : List<Enemy> = ArrayList<Enemy>()
+    private var bombs   : List<Bomb>  = ArrayList<Bomb>()
 
     init {
         // add callback
@@ -36,7 +40,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
     override fun surfaceCreated(surfaceHolder: SurfaceHolder) {
         // game objects
-        bomb     = Bomb(BitmapFactory.decodeResource(resources, R.drawable.bomb_01))
+        bomb        = Bomb(BitmapFactory.decodeResource(resources, R.drawable.bomb_01))
         basic_enemy = Enemy(BitmapFactory.decodeResource(resources, R.drawable.monster_01))
         player      = Player(BitmapFactory.decodeResource(resources, R.drawable.razor_saw))
 
@@ -75,9 +79,16 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         bomb!!.update()
         basic_enemy!!.update()
 
+        // update player position
         if(touched) {
-            player!!.update(touched_x, touched_y)
+            player!!.update(touched_x+5, touched_y+5)
         }
+
+        // check collisions
+        for(enemy in enemies){}
+        for(bomb  in bombs){}
+
+
     }
 
     /**
@@ -93,6 +104,8 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         player!!.draw(canvas)
     }
 
+
+    
 
 
 
